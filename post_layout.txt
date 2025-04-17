@@ -1,0 +1,8 @@
+
+<div class="post">
+    <div class="post-content">
+        <h3>Another Long One</h3>
+        <p>Hello</p>
+    </div>
+    <button class="read-more-btn">Expand</button>
+</div>

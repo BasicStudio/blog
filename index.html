@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Unwarrior Blog Posts</title>
+        <style>
+            /* Nord Color Palette */
+            :root {
+                --nord0: #2e3440; /* Polar Night - Deepest Dark */
+                --nord1: #3b4252; /* Polar Night - Darker */
+                --nord2: #434c5e; /* Polar Night - Dark */
+                --nord3: #4c566a; /* Polar Night - Light */
+                --nord4: #d8dee9; /* Snow Storm - Snow */
+                --nord5: #e5e9f0; /* Snow Storm - Frost */
+                --nord6: #eceff4; /* Snow Storm - Aurora */
+                --nord7: #8fbcbb; /* Frost - Cyan */
+                --nord8: #88c0d0; /* Frost - Blue */
+                --nord9: #81a1c1; /* Frost - Polar Blue */
+                --nord10: #5e81ac; /* Frost - Deep Blue */
+                --nord11: #bf616a; /* Aurora - Red */
+                --nord12: #d08770; /* Aurora - Orange */
+                --nord13: #ebcb8b; /* Aurora - Yellow */
+                --nord14: #a3be8c; /* Aurora - Green */
+                --nord15: #b48ead; /* Aurora - Purple */
+            }
+
+            body {
+                font-family: sans-serif; /* Change font */
+                margin: 0;
+                background-color: var(--nord0);
+                color: var(--nord6);
+            }
+
+            nav {
+                background-color: var(--nord1);
+                color: var(--nord6);
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+            }
+
+            nav img {
+                width: 128px;
+                height: 128px;
+                margin-right: 20px;
+            }
+
+            .nav-title {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .search-bar {
+                flex-grow: 1;
+                margin-left: 30px;
+                margin-right: 30px;
+            }
+
+            .search-bar input[type="text"] {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: var(--nord2);
+                color: var(--nord6);
+            }
+
+            .post-container {
+                margin-top: 150px; /* Adjust based on navbar height */
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                overflow-y: auto;
+                max-height: calc(
+                    120vh - 170px
+                ); /* Adjust based on navbar and padding */
+            }
+
+            .post {
+                background-color: var(--nord2);
+                color: var(--nord6);
+                border-radius: 10px;
+                padding: 20px;
+                height: 200px;
+                max-height: 200px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .post.expanded {
+                overflow: auto;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+                max-width: 90%;
+                height: auto;
+                max-height: 90%;
+                z-index: 101;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .post-content {
+                margin-bottom: 40px; /* Space for the button */
+                position: relative;
+            }
+
+            .post-content p {
+                margin-bottom: 40px; /* Space for the button */
+                position: relative;
+                overflow: hidden;
+                max-height: 100px;
+                font-family: "Times New Roman", serif;
+                font-size: 18px;
+                word-spacing: 0.01em; /* Increase word spacing */
+            }
+
+            .post.expanded .post-content p {
+                margin-bottom: 40px; /* Space for the button */
+                position: relative;
+                max-height: max-content;
+                overflow: visible;
+            }
+
+            .post-content p::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 120px; /* Adjust height of the gradient */
+                background: linear-gradient(
+                    to bottom,
+                    transparent,
+                    var(--nord2)
+                );
+                pointer-events: none; /* Allow clicks to pass through the gradient */
+            }
+
+            .post.expanded .post-content p::after {
+                display: none; /* Hide gradient when expanded */
+            }
+
+            .post.expanded .read-more-btn {
+                display: none; /* Hide the button when expanded */
+            }
+
+            .read-more-btn {
+                background-color: var(--nord8);
+                color: var(--nord0);
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 100;
+                display: none;
+            }
+
+            h3 {
+                color: var(--nord13);
+            }
+
+            .post-container {
+                scrollbar-width: thick; /* For Firefox */
+                scrollbar-color: var(--nord3) var(--nord1); /* For Firefox */
+            }
+
+            .post.expanded {
+                scrollbar-width: thick; /* For Firefox */
+                scrollbar-color: var(--nord3) var(--nord1); /* For Firefox */
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <img src="unwarriorlogo.png" alt="Logo" />
+            <div class="nav-title">Unwarrior Blog Posts</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search posts..." />
+            </div>
+        </nav>
+
+        <div class="post-container">
+            <div class="post">
+                <div class="post-content">
+                    <h3>The First of Many to Come...</h3>
+                    <p>
+                        <b>
+                            Hello! This is a ever expanding (hopefully) blog
+                            post website created by me!
+                        </b>
+                        <br />
+                        The date of this post is 04/16/2025 isnt that just
+                        exciting!
+                        <br />
+                        <br />
+                        <b> What is the point of these </b>
+                        <br />
+                        The purpose of these "blogs" are to update you on the
+                        projects I am currently working on or to just share
+                        infromation I find that I come across as interesting.
+                        Thanks to the fact of the "posts" being entirely done in
+                        html, easily also embed small projects in these for my
+                        self. Everything about this website is open source and I
+                        will be honest for each post I do.
+                        <br />
+                        <br />
+                        <b> But who are you? </b>
+                        <br />
+                        I am an solo game developer, IT technitian, Linux
+                        Enthusiast (This entire website was made on CachyOS ;)),
+                        and an AI assisted designer. Yes, I use AI when I design
+                        projects.
+                        <br />
+                        <br />
+                        <b>
+                            Cool. Is there anything your working on currently
+                        </b>
+                        <br />
+                        Not really as of right now, currently im just messing
+                        around with AI products and seeing how I can impulment
+                        some of them into my workflow. A big one I came across
+                        is Suno, which is an AI designed to focus on the
+                        creation of music. Suno's v4 model has really impressed
+                        me with what it can already do. So I plan on
+                        impulementing Suno into my Music Creation workflow. For
+                        art I use Google's Gemini Imagen v3. Gemini is pretty
+                        much my favorite AI tool as of right now, due to its
+                        versitility. I do have a couple of games that I am in
+                        the "concept" phase for. If I ever have any more
+                        information of those (probably when I start desiging
+                        sprites or music for the game) I will post that
+                        information here. My goal (as this will be a project in
+                        it of itself to maintain this site), is to constantly
+                        post weekly posts about anything I want. Nothings really
+                        off the table but dont expect any topics outside of: AI,
+                        Technology, Games, or Music.
+                        <br />
+                        <br />
+                        <b> Final Thoughts </b>
+                        <br />
+                        I am excited but also nervous about this project, I hope
+                        everyone that finds this will be excited as I am. I do
+                        plan on streaming one day and I will make a post about
+                        my experiance with that soon, but for now this will be a
+                        goodbye. I am hopeful that anyone who wants to know more
+                        about what I am doing will refer to these posts. OR if
+                        nobody uses these posts than it will be just my personal
+                        archive! Either way, thats it for now. <b> Chow! </b>
+                    </p>
+                </div>
+                <button class="read-more-btn">Expand</button>
+            </div>
+        </div>
+
+        <div class="overlay"></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const readMoreButtons =
+                    document.querySelectorAll(".read-more-btn");
+                const posts = document.querySelectorAll(".post");
+                const overlay = document.querySelector(".overlay");
+                let expandedPost = null;
+
+                readMoreButtons.forEach((button, index) => {
+                    button.addEventListener("click", function (event) {
+                        event.stopPropagation(); // Prevent clicks on the button from immediately closing the expanded post
+                        posts[index].classList.add("expanded");
+                        overlay.style.display = "block";
+                        expandedPost = posts[index];
+                    });
+                });
+
+                overlay.addEventListener("click", function () {
+                    if (expandedPost) {
+                        expandedPost.classList.remove("expanded");
+                        overlay.style.display = "none";
+                        expandedPost = null;
+                    }
+                });
+
+                const searchInput = document.querySelector(
+                    '.search-bar input[type="text"]',
+                );
+                const postContents = Array.from(
+                    document.querySelectorAll(".post-content"),
+                );
+
+                searchInput.addEventListener("input", function () {
+                    const searchTerm = this.value.toLowerCase();
+                    posts.forEach((post, index) => {
+                        const content =
+                            postContents[index].textContent.toLowerCase();
+                        if (content.includes(searchTerm)) {
+                            post.style.display = "block";
+                        } else {
+                            post.style.display = "none";
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
